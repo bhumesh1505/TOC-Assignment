@@ -1,0 +1,82 @@
+***************************************DFA MINIMIZATION*********************************************
+
+FUNCTIONS & VARIABLES:
+
+	StateName[STATES][STATES+1] –> state-name table
+	print_dfa_table() — > Function to print state-transition table
+	is_one_nextstate() –> Check if all the next states belongs to same equivalence class.
+	init_equiv_class() –> Divide DFA states into finals and non-finals.
+	set_new_equiv_class() –> Equivalent classes are segmented and get NEW equivalent classes.
+	get_optimized_DFA() –> Get optimized DFA ‘newdfa’ for equiv. class ‘stnt’.
+	split_equiv_class() -> Divide first equivalent class into subclasses.
+				- stnt[i1] : equiv. class to be segmented
+				- stnt[i2] : equiv. vector for next state of stnt[i1]
+
+ALGORITHM:
+	– stnt[i1] is splitted into 2 or more classes ‘s1/s2/…’
+	– old equiv. classes are NOT changed, except stnt[i1]
+	– stnt[i1]=s1, stnt[n]=s2, stnt[n+1]=s3, …
+
+RETURN VALUE: number of NEW equiv. classses in ‘stnt’.
+
+INPUT:
+	6
+	2
+	EF
+	B
+	C
+	E
+	F
+	A
+	A
+	F
+	E
+	D
+	F
+	D
+	E
+
+OUTPUT:
+	DFA: STATE TRANSITION TABLE
+	     |   0    1  
+	-----+------------
+ 	  A  |   B    C  
+ 	  B  |   E    F  
+	  C  |   A    A  
+	  D  |   F    E  
+	  E  |   D    F  
+	  F  |   D    E  
+	Final states = EF
+
+	EQUIV. CLASS CANDIDATE ==> 0:[ABCD] 1:[EF]
+	   0:[ABCD]	--> [BEAF] (0101)
+	   0:[ABCD]	--> [CFAE] (0101)
+	   1:[EF]	--> [DD] (00)
+	   1:[EF]	--> [FE] (11)
+
+	EQUIV. CLASS CANDIDATE ==> 0:[AC] 1:[BD] 2:[EF]
+	   0:[AC]	--> [BA] (10)
+	   0:[AC]	--> [CA] (00)
+	   1:[BD]	--> [EF] (22)
+	   1:[BD]	--> [FE] (22)
+	   2:[EF]	--> [DD] (11)
+	   2:[EF]	--> [FE] (22)
+
+	EQUIV. CLASS CANDIDATE ==> 0:[A] 1:[BD] 2:[C] 3:[EF]
+	   0:[A]	--> [B] (1)
+	   0:[A]	--> [C] (2)
+	   1:[BD]	--> [EF] (33)
+	   1:[BD]	--> [FE] (33)
+	   2:[C]	--> [A] (0)
+	   2:[C]	--> [A] (0)
+	   3:[EF]	--> [DD] (11)
+	   3:[EF]	--> [FE] (33)
+
+	DFA: STATE TRANSITION TABLE
+	     |   0    1  
+	-----+------------
+	  A  |   B    C  
+	  B  |   D    D  
+	  C  |   A    A  
+	  D  |   B    D  
+	Final states = D	
