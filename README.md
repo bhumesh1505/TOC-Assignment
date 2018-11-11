@@ -1,2 +1,2 @@
-# TOC-Assignment-
+# TOC-Assignment
 TOC Assignment
